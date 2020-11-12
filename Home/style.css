@@ -1,0 +1,169 @@
+.section {
+    margin: 19px 34px 35px;
+    padding-top: 95px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    background-color: #fff;
+  }
+  body{
+    background-image: url("logs/bac.jpg");
+    background-position: 0px 0px;
+    background-size: auto;
+  }
+  .image {
+    margin-top: -134px;
+    margin-bottom: -31px;
+    margin-left: -58px;
+    padding-top: 0px;
+  }
+  
+  .list {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: -52px;
+    margin-right: -185px;
+    margin-left: 620px;
+    padding-right: 768px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    list-style-type: none;
+  }
+  
+  .list-2 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: -51px;
+    margin-right: 51px;
+    margin-left: 569px;
+    padding: 0px 360px 0px 0px;
+    list-style-type: none;
+  }
+  
+  .list-item-3 {
+    padding-right: 32px;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #49a6d7;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: underline;
+  }
+  
+  .list-item-4 {
+    padding-right: 32px;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #000000;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .list-item-5 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -o-object-fit: fill;
+    object-fit: fill;
+  }
+  
+  .list-item-6 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #000000;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .list-item-7 {
+    padding-left: 322px;
+  }
+  
+  .list-item-8 {
+    margin-top: -41px;
+    margin-bottom: 0px;
+    margin-left: 1px;
+    padding-left: 500px;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #3189c8;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .image-2 {
+    margin-top: -63px;
+    margin-bottom: 20px;
+    margin-left: 240px;
+    color: #da181e;
+  }
+  
+  .image-4 {
+    margin-top: -135px;
+    margin-bottom: 68px;
+    margin-left: 1265px;
+  }
+  
+  .div-block-3 {
+    margin-top: -24px;
+    margin-right: 34px;
+    margin-left: 34px;
+    padding-top: 600px;
+    background-image: url("logs/sinuplogo.jpg");
+    background-position: 0px 0px;
+    background-size: cover;
+    font-size: 20px;
+  }
+  
+  .heading-2 {
+    margin-top: -500px;
+    margin-bottom: 10px;
+    margin-left: 114px;
+    padding-top: 0px;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #f2585a;
+    font-size: 52px;
+    text-align: left;
+  }
+  
+  .paragraph {
+    margin-top: 36px;
+    margin-bottom: 20px;
+    margin-left: -567px;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #fde582;
+    font-size: 52px;
+    text-align: center;
+  }
+  
+  .button {
+    margin-top: 37px;
+    margin-left: 400px;
+    background-color: #639d08;
+    font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+    color: #fde582;
+    text-align: center;
+    background-clip: border-box;
+  }
