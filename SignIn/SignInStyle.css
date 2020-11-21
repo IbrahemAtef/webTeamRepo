@@ -15,11 +15,13 @@ body{
     margin-top: 120px;
 }
 .input_style_text{
-    border: 5px solid #ffffff;
+    border: 5px solid #ffffff62;
     border-radius: 20px;
     height: 40px;
     width: 300px;
     margin-left: 45px;
+    background-color: rgba(255, 255, 255, 0.651);
+    
    
 }
 img{
@@ -55,4 +57,9 @@ img{
   .input_style_button:active {
     background-color: rgb(252, 252, 252);
   }
-
+ 
+  
+  
+  .input_style_text:active {
+    background-color: rgb(252, 252, 252);
+  }
