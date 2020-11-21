@@ -23,7 +23,8 @@ body{
    
 }
 img{
-    margin-top: auto;
+    margin-top: au
+    to;
     margin-left: 120px;
 }
 .LogIn_Word_style{
@@ -37,8 +38,21 @@ img{
     height: 40px;
     width: 300px;
     margin-left: 52px;
-
-   
-
+    
 }
+/* visited link */
+.input_style_button:visited {
+    background-color: rgba(63, 62, 62, 0.582);
+  }
+  
+  /* mouse over link */
+  .input_style_button:hover {
+    
+    background-color:rgba(31, 30, 30, 0.301) ;
+  }
+  
+  /* selected link */
+  .input_style_button:active {
+    background-color: rgb(252, 252, 252);
+  }
 
