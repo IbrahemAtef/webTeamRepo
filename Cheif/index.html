@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cheif page</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Welcome to Cheif page</h1>
-</body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      charset="utf-8"
+    ></script>
+  </head>
+  <body>
+    <input type="checkbox" id="check" />
+    <!--header area start-->
+    <header>
+      <label for="check">
+        <i class="fas fa-bars" id="sidebar_btn"></i>
+      </label>
+      <div class="left_area">
+        <div class="img-logo">
+          <img src="https://www.graphicsprings.com/filestorage/stencils/c96ff13ef8e250d256b66881d5b767be.png?width=500&height=500" alt="logo" />
+        </div>
+        <h3>Matbakhi</h3>
+      </div>
+      <div class="right_area">
+        <a href="#" class="logout_btn">Logout <i class="fas fa-sign-out-alt"></i> </a>
+      </div>
+    </header>
+    <!--header area end-->
+    <!--mobile navigation bar start-->
+    <!-- <div class="mobile_nav">
+      <div class="nav_bar">
+        <img src="imgs/1.png" class="mobile_profile_image" alt="" />
+        <i class="fa fa-bars nav_btn"></i>
+      </div>
+      <div class="mobile_nav_items">
+        <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+        <a href="#"><i class="fas fa-cogs"></i><span>Components</span></a>
+        <a href="#"><i class="fas fa-table"></i><span>Tables</span></a>
+        <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
+        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
+        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+      </div>
+    </div> -->
+    <!--mobile navigation bar end-->
+    <!--sidebar start-->
+    <div class="sidebar">
+      <div class="profile_info">
+        <img src="imgs/1.png" class="profile_image" alt="" />
+        <h4>Jessica</h4>
+      </div>
+      <a href="#" data-section=".add-recipe" class="active"><i class="fas fa-plus-circle"></i><span>Add Recipe</span></a>
+      <a href="#" data-section=".edit-recipe"><i class="fas fa-edit"></i><span>Edit Recipe</span></a>
+      <a href="#" data-section=".show-recipes"><i class="fas fa-eye"></i><span>Show Recipe</span></a>
+      <a href="#" data-section=".profile"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+    </div>
+    <!--sidebar end-->
+
+    <div class="content">
+      <div class="add-recipe">
+        add
+      </div>
+      <div class="edit-recipe">
+        edit        
+      </div>
+      <div class="show-recipes">
+        show        
+      </div>
+      <div class="profile">
+        profile        
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('.nav_btn').click(function () {
+          $('.mobile_nav_items').toggleClass('active');
+        });
+        
+        $('.sidebar a').click(function(e){
+          let classN = $(e.currentTarget).attr("data-section");
+          $(e.currentTarget).addClass("active").siblings().removeClass("active");
+          $(classN).show().siblings().hide();
+        })
+      });
+    </script>
+  </body>
 </html>
