@@ -1,18 +1,22 @@
 body{
-    background: url(sinuplogo.jpg) center fixed;
+    background: url(sinuplogo.jpg);
+    min-height: 100vh;
+    background-size: cover;
+    position: relative;
 }
 .div_style{
     
     height: 400px;
     background-color: rgba(255, 255, 255, 0.705) ;  
-    margin: auto;
+    margin-left:140px ;
     border-radius: 20px;
     width: 400px;
     height: 500px;
     border: 5px solid #ffffff;
     padding: 10px;  
     position: relative;
-    margin-top: 120px;
+    margin-top: 100px;
+    
 }
 .input_style_text{
     border: 5px solid #ffffff62;
