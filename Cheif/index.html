@@ -63,9 +63,64 @@
     </div>
     <!--sidebar end-->
 
+    <!-- start content -->
     <div class="content">
       <div class="add-recipe">
-        add
+        <h2>Add a new recipe</h2>
+        <div class="recipe">
+          <div class="left">
+            <div class="ingredients">
+              <h3>Add Recipe Ingredients</h3>
+              <div class="steps">
+                <p>
+                  <label>1. </label>
+                  <input type="text" >
+                </p>
+                <p>
+                  <label>2. </label>
+                  <input type="text" >
+                </p>
+                <p>
+                  <label>3. </label>
+                  <input type="text" >
+                </p>
+              </div>
+              <button class="btn">More Ingredients <i class="fas fa-plus"></i></button>
+            </div>
+            <div class="add_img">
+              <h3>Choose Recipe image:</h3>
+              <p>
+                <input type="file">
+              </p>
+            </div>
+          </div>
+          <div class="right">
+            <div class="preparation_steps">
+              <h3>Add Recipe preparation steps:</h3>
+              <div class="steps">
+                <p>
+                  <label>1.</label>
+                  <input type="text" >
+                </p>
+                <p>
+                  <label>2.</label>
+                  <input type="text" >
+                </p>
+                <p>
+                  <label>3.</label>
+                  <input type="text" >
+                </p>
+              </div>
+              <button class="btn">More steps <i class="fas fa-plus"></i></button>
+            </div>
+            <div class="add_desc">
+              <h3>Description: </h3>
+              <textarea></textarea>
+            </div>
+          </div>
+          <div class="clear_fix"></div>
+          <button>Save new recipe</button>
+        </div>
       </div>
       <div class="edit-recipe">
         edit        
@@ -78,16 +133,25 @@
       </div>
     </div>
 
+    <!-- start content -->
     <script type="text/javascript">
       $(document).ready(function () {
         $('.nav_btn').click(function () {
           $('.mobile_nav_items').toggleClass('active');
         });
-        
+        -
         $('.sidebar a').click(function(e){
           let classN = $(e.currentTarget).attr("data-section");
           $(e.currentTarget).addClass("active").siblings().removeClass("active");
           $(classN).show().siblings().hide();
+        })
+
+        $('.btn').click(function () {
+          $($(this).siblings()[1]).append(`<p>
+          <label>${$($(this).siblings()[1]).children().length + 1}.</label>
+          <input type="text" >
+        </p>`);
+
         })
       });
     </script>
