@@ -1,7 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+}
+
+.clear_fix {
+  clear: both;
 }
 
 /* start header */
@@ -12,7 +20,7 @@ header {
   padding: 12px;
   width: calc(100% - 0%);
   top: 0;
-  height: 64px;
+  height: 88px;
 }
 
 .left_area {
@@ -163,7 +171,6 @@ label #sidebar_btn:hover {
   margin-top: 88px;
   padding: 20px;
   margin-left: 250px;
-  background: url(imgs/background.png) no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
@@ -194,12 +201,109 @@ label #sidebar_btn:hover {
   display: none;
 }
 
-.content .card p {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  opacity: 0.8;
+.content .add-recipe {
+  padding-bottom: 80px;
+}
+
+.content .add-recipe .recipe {
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.content .add-recipe .recipe .left {
+  float: left;
+  width: 49.5%;
+}
+
+.content .add-recipe .recipe .left .add_img label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.content .add-recipe .recipe .left .ingredients .steps input[type='text'],
+.content
+  .add-recipe
+  .recipe
+  .right
+  .preparation_steps
+  .steps
+  input[type='text'] {
+  width: 90%;
+  height: 40px;
+  outline: none;
+  border: 1px solid #999;
+  background-color: #eee;
+  padding: 7px;
+  border-radius: 4px;
+}
+
+.content .add-recipe .recipe .left .ingredients .btn,
+.content .add-recipe .recipe .right .preparation_steps .btn {
+  width: 90%;
+  display: block;
+  text-align: center;
+  height: 40px;
+  line-height: 36px;
+  font-size: 18px;
+  background-color: #19b3d3;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  outline: none;
+  border-radius: 4px;
+  margin-left: 3.5%;
+}
+
+.content .add-recipe .recipe .left .ingredients .btn:hover,
+.content .add-recipe .recipe .right .preparation_steps .btn:hover {
+  background-color: #0b87a6;
+}
+
+.content .add-recipe .recipe .left .ingredients .btn i,
+.content .add-recipe .recipe .right .preparation_steps .btn i {
+  margin-left: 20px;
+}
+
+.content .add-recipe .recipe .right {
+  float: right;
+  width: 49.5%;
+}
+
+.content .add-recipe .recipe .right .add_desc textarea {
+  width: 100%;
+  height: 100px;
+  outline: none;
+  padding: 7px;
+  border: 1px solid #999;
+  background-color: #eee;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+.content .add-recipe .recipe > button {
+  width: 100%;
+  display: block;
+  text-align: center;
+  height: 40px;
+  line-height: 36px;
+  font-size: 18px;
+  background-color: #19b3d3;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  outline: none;
+  border-radius: 4px;
+  margin-top: 70px;
+}
+
+.content .add-recipe .recipe > button:hover {
+  background-color: #0b87a6;
 }
 
 /* Responsive CSS */
