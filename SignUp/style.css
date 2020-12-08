@@ -12,7 +12,10 @@ body {
 .bg-layer h1 {
   color: #fff;
   margin-top: 35px;
+  font-family: 'Lobster', cursive;
+  font-size: 38px;
 }
+
 .header-main {
   max-width: 350px;
   margin: 0 auto;
