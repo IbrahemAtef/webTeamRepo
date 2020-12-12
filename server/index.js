@@ -9,13 +9,13 @@ connectDB()
 // Middleware
 app.use(express.json({ extended: false }))
 
-// Handle production
 if (process.env.NODE_ENV === 'production') {
-  // Static folder
-  app.use(express.static(__dirname + '/public/'))
-  console.log(__dirname)
-  // Handle SPA
-  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
+  // Set static folder
+  app.use(express.static('client/build'))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+  })
 }
 
 const port = process.env.PORT || 5000

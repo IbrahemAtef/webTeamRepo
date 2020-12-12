@@ -6,6 +6,7 @@ const RecipeSchema = new mongoose.Schema({
   ingredients: { type: [String], required: true },
   steps: { type: [String], required: true },
   image: { type: String, required: true },
+  type: { type: String, required: true },
   cheifID: { type: String, required: true },
 })
 
