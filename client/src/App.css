@@ -2,6 +2,7 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* /////////////// Start Login //////////// */
@@ -295,9 +296,14 @@ label #sidebar_btn:hover {
   padding-bottom: 80px;
 }
 
+.content .add-recipe > h2 {
+  margin: 10px 15px;
+}
+
 .content .add-recipe .recipe {
   border: 1px solid #333;
   padding: 20px;
+  margin: 12px;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -307,9 +313,25 @@ label #sidebar_btn:hover {
   width: 49.5%;
 }
 
-.content .add-recipe .recipe .left .add_img label {
+.content .add-recipe .recipe .left .ingredients h3,
+.content .add-recipe .recipe .right .preparation_steps h3,
+.content .add-recipe .recipe .left .add_img h3,
+.content .add-recipe .recipe .right .add_desc h3 {
   display: block;
-  margin-bottom: 15px;
+  font-size: 1.2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0px;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.steps > p {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .content .add-recipe .recipe .left .ingredients .steps input[type='text'],
