@@ -9,6 +9,7 @@ import {
   faEye,
   faUserCircle,
   faPlus,
+  faImage,
 } from '@fortawesome/free-solid-svg-icons';
 // import x from '../../main';
 import $ from 'jquery';
@@ -121,8 +122,38 @@ class Dashboard extends React.Component {
                 <div className='add_img'>
                   <h3>Choose Recipe image:</h3>
                   <p>
-                    <input type='file' />
+                    <label >
+                      <input type='file' name='file' />
+                      <FontAwesomeIcon icon={faImage} />{' '}
+                      <span className='add-photos'>Add Photo</span>
+                    </label>
                   </p>
+                </div>
+                <div className='choice'>
+                  <div className='choice-head'>
+                    <label>Video Type</label>
+                  </div>
+                  <select
+                    className='custom-select'
+                    name='type'
+                  >
+                    <option value>Choose...</option>
+                    <option value='grills'>
+                      Grills
+                    </option>
+                    <option value='pastries'>
+                      Pastries
+                    </option>
+                    <option value='sea-food'>
+                      Sea Food
+                    </option>
+                    <option value='soups'>
+                      Soups
+                    </option>
+                    <option value='sweets'>
+                      Sweets
+                    </option>
+                  </select>
                 </div>
               </div>
               <div className='right'>
