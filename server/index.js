@@ -4,6 +4,7 @@ const app = express()
 
 const UsersRouter = require('./routes/users');
 const AuthRouter = require('./routes/auth');
+const RecipeRouter = require('./routes/recipes');
 
 // MongoDB
 const connectDB = require('./db/index')
@@ -15,6 +16,7 @@ app.use(express.json({ extended: false }))
 // Defining Routes
 app.use('/api/users', UsersRouter);
 app.use('/api/auth', AuthRouter);
+// app.use('/api/recipes', RecipeRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
