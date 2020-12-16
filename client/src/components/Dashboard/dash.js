@@ -1,5 +1,5 @@
 import React from 'react';
-import personal from '../../imgs/personal.png';
+import personal from '../../imgs/personal.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSignOutAlt,
@@ -74,7 +74,7 @@ class Dashboard extends React.Component {
         <div className='sidebar'>
           <div className='profile_info'>
             <img src={personal} className='profile_image' alt='' />
-            <h4>Jessica</h4>
+            <h4>Ahmed</h4>
           </div>
           <span  data-section='.add-recipe' className='active'>
             <FontAwesomeIcon icon={faPlusCircle} />
