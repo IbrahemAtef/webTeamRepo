@@ -4,7 +4,7 @@ const config = require('config');
 module.exports = (req, res, next) => {
   // Get token from the header
   const token = req.header('x-auth-token');
-
+  
   // check if not token
   if (!token) {
     return res.status(401).json({ error: 'No token, authorization denied' });
