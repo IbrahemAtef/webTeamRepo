@@ -1,4 +1,8 @@
-body {
+* {
+  margin: 0px;
+  padding: 0px;
+}
+.page-main {
   font-family: 'Hind', sans-serif;
   display: block;
   background-image: url('https://www4.0zz0.com/2020/11/28/11/951895225.jpg');
@@ -6,14 +10,18 @@ body {
   background-attachment: fixed;
   background-size: cover;
   text-align: center;
-  position: relative;
+  width: 100%;
+  height: 100vh;
 }
 
+.bg-layer {
+  padding: 50px;
+}
 .bg-layer h1 {
   color: #fff;
-  margin-top: 35px;
   font-family: 'Lobster', cursive;
   font-size: 38px;
+  padding: 20px;
 }
 
 .header-main {
