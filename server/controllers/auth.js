@@ -9,7 +9,6 @@ module.exports.tokenUser = async (req, res) => {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (error) {
-    console.error(error.message);
     res.status(500).send('Server Error');
   }
 };
@@ -57,11 +56,10 @@ module.exports.loginUser = async (req, res) => {
       { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, type: user.type });
       },
     );
   } catch (error) {
-    console.error(error.message);
     res.status(500).json({error : error.message});
   }
 };

@@ -147,7 +147,7 @@
   max-width: 410px;
   margin: 0 auto;
   position: relative;
-  padding: 2em 2em;
+  padding: 2em 2em 1.5em 2em;
   background: rgba(255, 255, 255, 0.04);
   box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
 }
@@ -197,6 +197,20 @@
   outline: none;
   border: none;
   width: 100%;
+}
+
+
+.forgot-password {
+  text-align: right;
+  font-size: 13px;
+  padding-top: 15px;
+  font-weight: bold;
+  margin: 7px 0;
+}
+
+.forgot-password a {
+  text-decoration: none;
+  color: azure;
 }
 /* ///////////// End Login ///////////////*/
 

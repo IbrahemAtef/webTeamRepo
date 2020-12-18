@@ -3,6 +3,7 @@ import axios from 'axios';
 // import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import swal from 'sweetalert';
 
 
 class Login extends React.Component {
@@ -21,10 +22,19 @@ class Login extends React.Component {
     e.preventDefault();
     const { email, password } = this.state;
     try {
-      let result = await (await axios.post("/api/auth/loginUser", { email, password })).data
-      localStorage.setItem('token', result.token)
+      let {token, type} = await (await axios.post("/api/auth/loginUser", { email, password })).data
+      localStorage.setItem('token', token)
+      if (type === 'cheif') {
+        this.props.history.push('/dashboard');
+      } else {
+        this.props.history.push('/');
+      }
     } catch (error) {
-      console.log(error)
+      swal("OoOps!", " Invalid email or password.", "error");
+      this.setState({
+        email: "",
+        password: "",
+      })
     }
   }
 
@@ -47,7 +57,7 @@ class Login extends React.Component {
       <div className="page-main">
         <div className="bg-layer">
           <h1>Matbikhi</h1>
-          <div className="header-main" style={{paddingTop: 4+'em', paddingBottom: 4 + 'em', paddingRight: 2 +'em', paddingLeft: 2 + 'em'}}>
+          <div className="header-main" style={{paddingTop: 3+'em', paddingBottom: 3 + 'em', paddingRight: 2 +'em', paddingLeft: 2 + 'em'}}>
             <div className="main-icon">
               <img
                 src="https://www9.0zz0.com/2020/11/28/19/473729025.png"
@@ -69,6 +79,7 @@ class Login extends React.Component {
                 <div className="bottom" onClick={this.handleSubmit.bind(this)}>
                   <button className="btn">Login</button>
                 </div>
+                <p className="forgot-password">Don't have an account? <a href="../sign-up">SignUp</a></p>
               </form>
             </div>
           </div>

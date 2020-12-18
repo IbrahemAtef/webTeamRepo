@@ -11,7 +11,6 @@ import {
   faPlus,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
-// import x from '../../main';
 import $ from 'jquery';
 
 class Dashboard extends React.Component {
@@ -65,9 +64,12 @@ class Dashboard extends React.Component {
             <h3>Matbakhi</h3>
           </div>
           <div className='right_area'>
-            <buttun className='logout_btn'>
+            <span className='logout_btn' onClick={()=>{
+              localStorage.removeItem('token')
+              this.props.history.push('/');
+            }}>
               Logout <FontAwesomeIcon icon={faSignOutAlt} />{' '}
-            </buttun>
+            </span>
           </div>
         </header>
 
