@@ -1,8 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose')  
+const config = require('config');
+const mongoURI = config.get('mongoURI');
 
 const connectDB = async () => {
   await mongoose
-    .connect('mongodb://localhost/test', {
+    .connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -12,6 +14,7 @@ const connectDB = async () => {
     })
     .catch((err) => {
       // Exit process with failure
+      console.log(err.message);
       process.exit(1)
     })
 }

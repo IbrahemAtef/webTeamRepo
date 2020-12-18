@@ -1,13 +1,22 @@
 const express = require('express')
 
 const app = express()
+const cors = require('cors');
+
+const UsersRouter = require('./routes/users');
+const AuthRouter = require('./routes/auth');
 
 // MongoDB
-const connectDB = require('../database/index')
+const connectDB = require('./db/index')
 connectDB()
 
 // Middleware
 app.use(express.json({ extended: false }))
+app.use(cors());
+
+// Defining Routes
+app.use('/api/users', UsersRouter);
+app.use('/api/auth', AuthRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
