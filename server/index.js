@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const UsersRouter = require('./routes/users');
 const AuthRouter = require('./routes/auth');
+const RecipeRouter = require('./routes/recipes');
 
 // MongoDB
 const connectDB = require('./db/index')
@@ -17,6 +18,7 @@ app.use(cors());
 // Defining Routes
 app.use('/api/users', UsersRouter);
 app.use('/api/auth', AuthRouter);
+app.use('/api/recipes', RecipeRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder

@@ -21,9 +21,8 @@ class Login extends React.Component {
     e.preventDefault();
     const { email, password } = this.state;
     try {
-      let token = await axios.post("/api/auth/loginUser", { email, password })
-      localStorage.setItem('token', token)
-
+      let result = await (await axios.post("/api/auth/loginUser", { email, password })).data
+      localStorage.setItem('token', result.token)
     } catch (error) {
       console.log(error)
     }
@@ -48,7 +47,7 @@ class Login extends React.Component {
       <div className="page-main">
         <div className="bg-layer">
           <h1>Matbikhi</h1>
-          <div className="header-main">
+          <div className="header-main" style={{paddingTop: 4+'em', paddingBottom: 4 + 'em', paddingRight: 2 +'em', paddingLeft: 2 + 'em'}}>
             <div className="main-icon">
               <img
                 src="https://www9.0zz0.com/2020/11/28/19/473729025.png"
@@ -56,7 +55,7 @@ class Login extends React.Component {
               />
             </div>
             <div className="header-left-bottom">
-              <form onClick={this.handleSubmit.bind(this)}>
+              <form>
                 <div className="icon1">
                   <FontAwesomeIcon icon={faEnvelope} />
                   <input type="email" name="email" placeholder="Email Address" required
@@ -67,7 +66,7 @@ class Login extends React.Component {
                   <input type="password" name="password" placeholder="Password" required
                     value={this.state.password} onChange={this.handleChange.bind(this)} />
                 </div>
-                <div className="bottom">
+                <div className="bottom" onClick={this.handleSubmit.bind(this)}>
                   <button className="btn">Login</button>
                 </div>
               </form>

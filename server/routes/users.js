@@ -24,7 +24,7 @@ router.post(
 router.get('/cheifs', getCheifs);
 
 // @route  PATCH api/users + /editUser
-// @desc   Register user
+// @desc   Edit user
 router.patch(
   '/editUser',
   [
