@@ -47,7 +47,7 @@ class Login extends React.Component {
       <div className="page-main">
         <div className="bg-layer">
           <h1>Matbikhi</h1>
-          <div className="header-main">
+          <div className="header-main" style={{paddingTop: 4+'em', paddingBottom: 4 + 'em', paddingRight: 2 +'em', paddingLeft: 2 + 'em'}}>
             <div className="main-icon">
               <img
                 src="https://www9.0zz0.com/2020/11/28/19/473729025.png"

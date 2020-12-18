@@ -1,14 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faLock, faUser, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 class SignUp extends React.Component {
   state = {
     userName: '',
     email: '',
     password: '',
-    type: ''
+    type: 'guest',
+    cheifKey: ''
   };
 
   handleChange(e) {
@@ -21,10 +22,17 @@ class SignUp extends React.Component {
     e.preventDefault();
     const { userName, email, password, type } = this.state;
     try {
-      let result = await (await axios.post("/api/users/createUser", {userName, email, password, type })).data
-      localStorage.setItem('token', result.token)
+      let result = await (
+        await axios.post('/api/users/createUser', {
+          userName,
+          email,
+          password,
+          type,
+        })
+      ).data;
+      localStorage.setItem('token', result.token);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -75,6 +83,32 @@ class SignUp extends React.Component {
                     onChange={this.handleChange.bind(this)}
                   />
                 </div>
+                <div className='icon1'>
+                  <FontAwesomeIcon icon={faUserFriends} />
+                  <select
+                    name='type'
+                    value={this.state.type}
+                    onChange={this.handleChange.bind(this)}
+                  >
+                    <option value='guest'>Guest</option>
+                    <option value='cheif'>Cheif</option>
+                  </select>
+                </div>
+                {this.state.type === 'cheif' ? (
+                  <div className='icon1'>
+                    <FontAwesomeIcon icon={faLock} />
+                    <input
+                      type='password'
+                      name='cheifKey'
+                      placeholder='Cheif Key'
+                      required
+                      value={this.state.cheifKey}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
                 <div className='bottom' onClick={this.handleSubmit.bind(this)}>
                   <button className='btn'>Sign Up</button>
                 </div>
