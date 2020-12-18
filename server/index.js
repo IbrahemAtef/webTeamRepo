@@ -18,7 +18,7 @@ app.use(cors());
 // Defining Routes
 app.use('/api/users', UsersRouter);
 app.use('/api/auth', AuthRouter);
-// app.use('/api/recipes', RecipeRouter);
+app.use('/api/recipes', RecipeRouter);
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
