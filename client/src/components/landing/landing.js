@@ -26,7 +26,7 @@ class Landing extends React.Component {
                   </p>
                   <div className='buttons'>
                     <a className='upper' href='/login'>
-                      sign in
+                      Login
                     </a>
                     <a className='upper' href='/sign-up'>
                       Sign up

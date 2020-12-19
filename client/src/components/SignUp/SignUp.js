@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faUser, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import swal from 'sweetalert';
 
 class SignUp extends React.Component {
   state = {
@@ -9,7 +10,7 @@ class SignUp extends React.Component {
     email: '',
     password: '',
     type: 'guest',
-    cheifKey: ''
+    cheifKey: '',
   };
 
   handleChange(e) {
@@ -20,7 +21,10 @@ class SignUp extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { userName, email, password, type } = this.state;
+    const { userName, email, password, type , cheifKey} = this.state;
+    if (type === 'cheif' && cheifKey !== "123456789") {
+      return swal("OoOps!", " The Cheif key is not correct.", "error");
+    }
     try {
       let result = await (
         await axios.post('/api/users/createUser', {
@@ -31,16 +35,28 @@ class SignUp extends React.Component {
         })
       ).data;
       localStorage.setItem('token', result.token);
+      if (type === 'cheif') {
+        this.props.history.push('/dashboard');
+      } else {
+        this.props.history.push('/');
+      }
     } catch (error) {
-      console.log(error);
+      swal("OoOps!", " Please fill all the fields correctly.", "error");
+      this.setState({
+        userName: '',
+        email: '',
+        password: '',
+        type: 'guest',
+        cheifKey: ''
+      })
     }
   }
 
   render() {
     return (
       <div className='page-main'>
-        <div className='bg-layer'>
-          <h1>Matbikhi</h1>
+        <div className='bg-layer' style={{paddingTop:20+ 'px'}}>
+          <h1 style={{paddingBottom: 15 + 'px'}}>Matbikhi</h1>
           <div className='header-main'>
             <div className='main-icon'>
               <img
@@ -112,6 +128,7 @@ class SignUp extends React.Component {
                 <div className='bottom' onClick={this.handleSubmit.bind(this)}>
                   <button className='btn'>Sign Up</button>
                 </div>
+                <p className="forgot-password" style={{marginBottom:0}}>Already registered? <a href="/login">login</a></p>
               </form>
             </div>
           </div>
