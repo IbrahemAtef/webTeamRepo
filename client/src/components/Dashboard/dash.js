@@ -10,6 +10,7 @@ import {
   faUserCircle,
   faPlus,
   faImage,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
 
@@ -17,24 +18,23 @@ class Dashboard extends React.Component {
   state = {};
 
   componentDidMount() {
-    
     // jquery
     $(function () {
-      $('.nav_btn').on("click",function () {
+      $('.nav_btn').on('click', function () {
         $('.mobile_nav_items').toggleClass('active');
       });
-      $('.sidebar > span').on("click",function(e){
-        let classN = $(e.currentTarget).attr("data-section");
-        $(e.currentTarget).addClass("active").siblings().removeClass("active");
+      $('.sidebar > span').on('click', function (e) {
+        let classN = $(e.currentTarget).attr('data-section');
+        $(e.currentTarget).addClass('active').siblings().removeClass('active');
         $(classN).show().siblings().hide();
-      })
-      $('.btn').on("click",function () {
+      });
+      $('.btn').on('click', function () {
         $($(this).siblings()[1]).append(`<p>
         <label>${$($(this).siblings()[1]).children().length + 1}.</label>
         <input type="text" >
         </p>`);
-      })
-    })
+      });
+    });
   }
 
   handleChange(e) {
@@ -64,39 +64,43 @@ class Dashboard extends React.Component {
             <h3>Matbakhi</h3>
           </div>
           <div className='right_area'>
-            <span className='logout_btn' onClick={()=>{
-              localStorage.removeItem('token')
-              this.props.history.push('/');
-            }}>
+            <span
+              className='logout_btn'
+              onClick={() => {
+                localStorage.removeItem('token');
+                this.props.history.push('/');
+              }}
+            >
               Logout <FontAwesomeIcon icon={faSignOutAlt} />{' '}
             </span>
           </div>
         </header>
-
+        {/* start sidebar */}
         <div className='sidebar'>
           <div className='profile_info'>
             <img src={personal} className='profile_image' alt='' />
             <h4>Ahmed</h4>
           </div>
-          <span  data-section='.add-recipe' className='active'>
+          <span data-section='.add-recipe' className='active'>
             <FontAwesomeIcon icon={faPlusCircle} />
             <span>Add Recipe</span>
           </span>
-          <span  data-section='.edit-recipe'>
+          {/* <span  data-section='.edit-recipe'>
             <FontAwesomeIcon icon={faEdit} />
             <span>Edit Recipe</span>
-          </span>
-          <span  data-section='.show-recipes'>
+          </span> */}
+          <span data-section='.show-recipes'>
             <FontAwesomeIcon icon={faEye} />
             <span>Show Recipe</span>
           </span>
-          <span  data-section='.profile'>
+          <span data-section='.profile'>
             <FontAwesomeIcon icon={faUserCircle} />
             <span>Profile</span>
           </span>
         </div>
-
+        {/* start content */}
         <div className='content'>
+          {/* add recipe */}
           <div className='add-recipe'>
             <h2>Add a new recipe</h2>
             <div className='recipe'>
@@ -124,7 +128,7 @@ class Dashboard extends React.Component {
                 <div className='add_img'>
                   <h3>Choose Recipe image:</h3>
                   <p>
-                    <label >
+                    <label>
                       <input type='file' name='file' />
                       <FontAwesomeIcon icon={faImage} />{' '}
                       <span className='add-photos'>Add Photo</span>
@@ -135,26 +139,13 @@ class Dashboard extends React.Component {
                   <div className='choice-head'>
                     <label>Video Type</label>
                   </div>
-                  <select
-                    className='custom-select'
-                    name='type'
-                  >
+                  <select className='custom-select' name='type'>
                     <option value>Choose...</option>
-                    <option value='grills'>
-                      Grills
-                    </option>
-                    <option value='pastries'>
-                      Pastries
-                    </option>
-                    <option value='sea-food'>
-                      Sea Food
-                    </option>
-                    <option value='soups'>
-                      Soups
-                    </option>
-                    <option value='sweets'>
-                      Sweets
-                    </option>
+                    <option value='grills'>Grills</option>
+                    <option value='pastries'>Pastries</option>
+                    <option value='sea-food'>Sea Food</option>
+                    <option value='soups'>Soups</option>
+                    <option value='sweets'>Sweets</option>
                   </select>
                 </div>
               </div>
@@ -188,8 +179,188 @@ class Dashboard extends React.Component {
               <button>Save new recipe</button>
             </div>
           </div>
-          <div className='edit-recipe'>edit</div>
-          <div className='show-recipes'>show</div>
+
+          {/* <div className='edit-recipe'>edit</div> */}
+          <div className='show-recipes'>
+            <h2>Show Recipes</h2>
+            <div className='recipe'>
+              <div className='post-block'>
+                <div className='post-img-div'>
+                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
+                </div>
+                <div className='post-descri-div'>
+                  <h4>New Version for huawai</h4>
+                  <p>40 Journal Square Plaza, NJ, USA</p>
+                </div>
+                <div className='post-edit-delete'>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className='edit-icon'
+                    title="Edit recipe"
+                    // onClick={() => {
+                    //   this.handleEdit(post.id);
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className='delete-icon'
+                    title="Delete recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className='show-icon'
+                    title="Show recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                </div>
+              </div>
+              <div className='post-block'>
+                <div className='post-img-div'>
+                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
+                </div>
+                <div className='post-descri-div'>
+                  <h4>New Version for huawai</h4>
+                  <p>40 Journal Square Plaza, NJ, USA</p>
+                </div>
+                <div className='post-edit-delete'>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className='edit-icon'
+                    title="Edit recipe"
+                    // onClick={() => {
+                    //   this.handleEdit(post.id);
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className='delete-icon'
+                    title="Delete recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className='show-icon'
+                    title="Show recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                </div>
+              </div>
+              <div className='post-block'>
+                <div className='post-img-div'>
+                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
+                </div>
+                <div className='post-descri-div'>
+                  <h4>New Version for huawai</h4>
+                  <p>40 Journal Square Plaza, NJ, USA</p>
+                </div>
+                <div className='post-edit-delete'>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className='edit-icon'
+                    title="Edit recipe"
+                    // onClick={() => {
+                    //   this.handleEdit(post.id);
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className='delete-icon'
+                    title="Delete recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className='show-icon'
+                    title="Show recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                </div>
+              </div>
+              <div className='post-block'>
+                <div className='post-img-div'>
+                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
+                </div>
+                <div className='post-descri-div'>
+                  <h4>New Version for huawai</h4>
+                  <p>40 Journal Square Plaza, NJ, USA</p>
+                </div>
+                <div className='post-edit-delete'>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className='edit-icon'
+                    title="Edit recipe"
+                    // onClick={() => {
+                    //   this.handleEdit(post.id);
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className='delete-icon'
+                    title="Delete recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className='show-icon'
+                    title="Show recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                </div>
+              </div>
+              <div className='post-block'>
+                <div className='post-img-div'>
+                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
+                </div>
+                <div className='post-descri-div'>
+                  <h4>New Version for huawai</h4>
+                  <p>40 Journal Square Plaza, NJ, USA</p>
+                </div>
+                <div className='post-edit-delete'>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className='edit-icon'
+                    title="Edit recipe"
+                    // onClick={() => {
+                    //   this.handleEdit(post.id);
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className='delete-icon'
+                    title="Delete recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className='show-icon'
+                    title="Show recipe"
+                    // onClick={() => {
+                    //   $('.drop-delete').show();
+                    // }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className='profile'>profile</div>
         </div>
       </div>
