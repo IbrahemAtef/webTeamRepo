@@ -40,19 +40,6 @@ class Login extends React.Component {
 
 
   render() {
-    // if (this.state.user) {
-    //   return (
-    //     <Redirect
-    //       to={{
-    //         pathname: `/${this.state.user.type}`,
-    //         state: {
-    //           fName: `${this.state.user.fName}`,
-    //           gitUser: `${this.state.user.gitUser}`,
-    //         },
-    //       }}
-    //     />
-    //   );
-    // }
     return (
       <div className="page-main">
         <div className="bg-layer">

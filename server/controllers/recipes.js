@@ -2,10 +2,6 @@ const Recipe = require('../models/Recipe');
 const { validationResult } = require('express-validator');
 
 module.exports.addRecipe = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
 
   const {
     title,
@@ -39,6 +35,7 @@ module.exports.addRecipe = async (req, res) => {
 
     // save recipe to database
     await recipe.save();
+    res.send("Recipe added successfuly")
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: error.message });
