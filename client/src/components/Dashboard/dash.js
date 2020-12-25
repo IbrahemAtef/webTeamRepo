@@ -5,7 +5,6 @@ import {
   faSignOutAlt,
   faBars,
   faPlusCircle,
-  faEdit,
   faEye,
   faUserCircle,
   faPlus,
@@ -23,14 +22,13 @@ class Dashboard extends React.Component {
     image: '',
     type: '',
     cheif: null,
+    recipes: null,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!localStorage.getItem('token')) {
       this.props.history.push('/');
     } else {
-      this.getUser();
-
       ///////////////// jquery ///////////////
       $(function () {
         $('.nav_btn').on('click', function () {
@@ -53,6 +51,9 @@ class Dashboard extends React.Component {
         $('.spinner-border').hide();
       });
     }
+    //////////////////////////////////////////////////////////////////////
+    await this.getUser();
+    await this.getRecipes();
   }
 
   async getUser() {
@@ -68,6 +69,42 @@ class Dashboard extends React.Component {
       });
     } catch (error) {
       window.location.reload();
+    }
+  }
+
+  async getRecipes() {
+    const cheifID = this.state && this.state.cheif._id;
+    try {
+      let recipes = await (await axios.get(`/api/recipes/${cheifID}`)).data;
+      this.setState({ recipes });
+    } catch (error) {
+      window.location.reload();
+    }
+  }
+
+  async deleteRecipe(recipeID) {
+    try {
+      let willDelete = await swal({
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover this recipe!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      });
+      if (willDelete) {
+        let res = await (
+          await axios.delete(`api/recipes/deleteRecipe/${recipeID}`)
+        ).data;
+        await swal(`Poof! ${res.msg}!`, {
+          icon: 'success',
+        });
+        window.location.reload();
+      } else {
+        await swal('Your Recipe is safe!');
+      }
+    } catch (error) {
+      console.log(error);
+      await swal('OoOps!', 'Failed to add recipe.', 'error');
     }
   }
 
@@ -91,29 +128,27 @@ class Dashboard extends React.Component {
     const { title, description, image, type } = this.state;
     const cheifID = this.state.cheif && this.state.cheif._id;
     try {
-      if (ingredients.join("").length === 0 || steps.join("").length === 0) {
-        await swal('OoOps!', 'Make sure to add the ingredients and preparation steps.', 'error');
+      if (ingredients.join('').length === 0 || steps.join('').length === 0) {
+        await swal(
+          'OoOps!',
+          'Make sure to add the ingredients and preparation steps.',
+          'error',
+        );
         return;
       }
-      var msg = await( await axios.post('/api/recipes/addRecipe', {
-        title,
-        description,
-        ingredients,
-        steps,
-        image,
-        type,
-        cheifID,
-      })).data;
+      var msg = await (
+        await axios.post('/api/recipes/addRecipe', {
+          title,
+          description,
+          ingredients,
+          steps,
+          image,
+          type,
+          cheifID,
+        })
+      ).data;
       await swal('Good job!', msg, 'success');
-      this.setState({
-        title: '',
-        description: '',
-        image: '',
-        type: '',
-      })
-      $('.steps > p > input').each((index, input) => {
-        $(input).val("");
-      });
+      await window.location.reload();
     } catch (error) {
       await swal('OoOps!', 'Failed to add recipe.', 'error');
     }
@@ -247,7 +282,6 @@ class Dashboard extends React.Component {
                       <span className='add-photos'>Add Photo</span>
                     </label>
                   </p>
-                  {/* <Spinner animation="border" variant="primary" /> */}
                 </div>
                 <div className='choice'>
                   <div className='choice-head'>
@@ -309,199 +343,48 @@ class Dashboard extends React.Component {
           <div className='show-recipes'>
             <h2>Show Recipes</h2>
             <div className='recipe'>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img
-                    src='https://townhub.kwst.net/images/all/1.jpg'
-                    alt='img'
-                  />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title='Edit recipe'
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title='Delete recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title='Show recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img
-                    src='https://townhub.kwst.net/images/all/1.jpg'
-                    alt='img'
-                  />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title='Edit recipe'
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title='Delete recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title='Show recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img
-                    src='https://townhub.kwst.net/images/all/1.jpg'
-                    alt='img'
-                  />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title='Edit recipe'
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title='Delete recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title='Show recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img
-                    src='https://townhub.kwst.net/images/all/1.jpg'
-                    alt='img'
-                  />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title='Edit recipe'
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title='Delete recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title='Show recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img
-                    src='https://townhub.kwst.net/images/all/1.jpg'
-                    alt='img'
-                  />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title='Edit recipe'
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title='Delete recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title='Show recipe'
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
+              {this.state.recipes && this.state.recipes.length !== 0 ? (
+                this.state.recipes.map((recipe, index) => {
+                  return (
+                    <div className='post-block' key={index}>
+                      <div className='post-img-div'>
+                        <img src={recipe.image} alt='img' />
+                      </div>
+                      <div className='post-descri-div'>
+                        <h4>{recipe.title}</h4>
+                        <p>{recipe.description}</p>
+                      </div>
+                      <div className='post-show-delete'>
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className='show-icon'
+                          title='Show recipe'
+                          // onClick={() => {
+                          // }}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className='delete-icon'
+                          title='Delete recipe'
+                          onClick={() => {
+                            this.deleteRecipe(recipe._id);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <h4>You didn't add any recipes yet</h4>
+              )}
             </div>
           </div>
-          <div className='profile'>profile</div>
+          <div className='profile'>
+            <h2>My Profile</h2>
+            <div className="recipe">
+                
+            </div>
+          </div>
         </div>
       </div>
     );

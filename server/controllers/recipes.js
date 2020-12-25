@@ -2,7 +2,6 @@ const Recipe = require('../models/Recipe');
 const { validationResult } = require('express-validator');
 
 module.exports.addRecipe = async (req, res) => {
-
   const {
     title,
     description,
@@ -35,7 +34,7 @@ module.exports.addRecipe = async (req, res) => {
 
     // save recipe to database
     await recipe.save();
-    res.send("Recipe added successfuly")
+    res.send('Recipe added successfuly');
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: error.message });
@@ -45,13 +44,19 @@ module.exports.addRecipe = async (req, res) => {
 module.exports.getRecipes = async (req, res) => {
   const { cheifID } = req.params;
   try {
-    let recipesByCheifID = await Recipe.find({cheifID});
+    let recipesByCheifID = await Recipe.find({ cheifID });
     res.json(recipesByCheifID);
   } catch (error) {
     res.status(500).send('Server error');
   }
 };
 
-module.exports.editRecipe = async (req, res) => {};
-
-module.exports.deleteRecipe = async (req, res) => {};
+module.exports.deleteRecipe = async (req, res) => {
+  const { _id } = req.params;
+  try {
+    await Recipe.deleteOne({_id});
+    res.json({msg : "Your Recipe has been deleted"})
+  } catch (error) {
+    res.json({msg : "Failed to delete Recipe"})
+  }
+};

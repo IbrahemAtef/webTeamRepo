@@ -411,27 +411,26 @@ label #sidebar_btn:hover {
 }
 
 .content .add-recipe,
-.content .show-recipes {
+.content .show-recipes,
+.content .profile {
   padding-bottom: 80px;
 }
 
 .content .add-recipe > h2,
-.content .show-recipes > h2 {
+.content .show-recipes > h2,
+.content .profile > h2 {
   margin: 10px 15px;
 }
 
 .content .add-recipe .recipe,
-.content .show-recipes .recipe {
+.content .show-recipes .recipe,
+.content .profile .recipe {
   border: 1px solid darkblue;
   padding: 20px;
   margin: 12px;
   border-radius: 4px;
   overflow: hidden;
 }
-
-/* .content .add-recipe .recipe .title{
-
-} */
 
 .content .add-recipe .recipe .left {
   float: left;
@@ -653,7 +652,7 @@ label #sidebar_btn:hover {
   display: block;
 }
 
-.post-edit-delete {
+.post-show-delete {
   position: absolute;
   top: 25px;
   right: 0;
@@ -663,18 +662,23 @@ label #sidebar_btn:hover {
   box-shadow: 5px 4px 5px #b1b1b1;
 }
 
-.post-edit-delete .edit-icon {
-  background-color: #4db7fe;
+.post-show-delete .show-icon {
+  background-color: rgb(77, 183, 254);
+  transition: .5s;
+}
+.post-show-delete .show-icon:hover {
+  background-color: rgb(6, 114, 190);
 }
 
-.post-edit-delete .delete-icon {
+.post-show-delete .delete-icon {
   background-color: #fe4d65;
+  transition: .5s;
 }
-.post-edit-delete .show-icon {
-  background-color: rgba(49,55,61,.7);
+.post-show-delete .delete-icon:hover {
+  background-color: #f0233e;
 }
 
-.post-edit-delete svg {
+.post-show-delete svg {
   color: #fff;
   width: 40px !important;
   height: 40px !important;
@@ -804,6 +808,5 @@ label #sidebar_btn:hover {
 /*/////////////////////// End Dashboard  ////////////////////////*/
 
 /* Start Home */
-
 /* End Home */
 
