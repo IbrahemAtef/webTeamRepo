@@ -1,0 +1,45 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+.flex-container > div {
+  display: flex;
+  flex-wrap: nowrap;
+
+  justify-content: center;
+}
+
+.description {
+  margin-left: 50px;
+  width: 90%;
+}
+
+.recipeType {
+  margin-left: 50px;
+}
+
+img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50px;
+}
+.recipe-title {
+  margin-left: 50px;
+}
+
+.specifications {
+  margin-left: 50px;
+}
+
+.div-title {
+  color: orange;
+}
+.requirement {
+}
+
+.border-title {
+  background-color: orange;
+  height: 3px;
+  border: none;
+  border-block-start-width: medium;
+  margin-right: 150px;
+}
