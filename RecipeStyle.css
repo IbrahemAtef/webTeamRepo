@@ -1,5 +1,8 @@
 * {
   font-family: 'Open Sans', sans-serif;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 .flex-container > div {
   display: flex;
@@ -27,13 +30,17 @@ img {
 }
 
 .specifications {
-  margin-left: 50px;
+  margin-left: 55px;
+  margin-top: 30px;
 }
 
 .div-title {
   color: orange;
 }
 .requirement {
+  margin-left: 50px;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .border-title {
