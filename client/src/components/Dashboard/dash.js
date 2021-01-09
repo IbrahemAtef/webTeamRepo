@@ -382,7 +382,50 @@ class Dashboard extends React.Component {
           <div className='profile'>
             <h2>My Profile</h2>
             <div className="recipe">
-                
+                <div className="left">
+                  <div className="edit_signle">
+                    <p>
+                      <h3>Email:</h3>
+                      <input id="disabled" type="text" disabled="true" value="Ibrahim@gmail.com"/>
+                    </p>
+                  </div>
+                  <div className="edit_signle">
+                    <p>
+                      <h3>UserName:</h3>
+                      <input type="text" value="Ibrahim"/>
+                    </p>
+                    <button className="edit_btn">Edit UserName</button>
+                  </div>
+                  <div className='add_img'>
+                    <h3>Personal image:</h3>
+                    <div role='status' className='spinner-border'>
+                      <span className='sr-only'>Loading...</span>
+                    </div>
+                    <p>
+                      <label>
+                        <input
+                          type='file'
+                          name='file'
+                          onChange={this.uploadImage.bind(this)}
+                        />
+                        <FontAwesomeIcon icon={faImage} />{' '}
+                        <span className='add-photos'>Add Photo</span>
+                      </label>
+                    </p>
+                    <button className="edit_btn">Edit personal image</button>
+                  </div>
+                </div>
+                <div className="right">
+                  <div className="edit_signle">
+                    <p>
+                      <h3>Change your password:</h3>
+                      <input type="text" />
+                      <input type="text" />
+                      <input type="text" />
+                    </p>
+                    <button className="edit_btn" style= {{ marginTop: 8 + 'px', width: 90 + '%', fontSize: 16 + 'px'}}>Edit password</button>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
