@@ -75,7 +75,10 @@ class Dashboard extends React.Component {
       }, ()=> {
         this.setState({
           newUserName: this.state.cheif.userName,
-          picture : this.state.cheif.picture
+          picture : this.state.cheif.picture,
+          oldPassword : '',
+          newPassword : '',
+          newPasswordConfirm : '',
         })
       });
     } catch (error) {
