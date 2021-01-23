@@ -51,6 +51,15 @@ module.exports.getRecipes = async (req, res) => {
   }
 };
 
+module.exports.getAllRecipes = async (req, res) => {
+  try {
+    let recipes = await Recipe.find({});
+    res.json(recipes);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+};
+
 module.exports.deleteRecipe = async (req, res) => {
   const { _id } = req.params;
   try {
