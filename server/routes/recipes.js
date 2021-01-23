@@ -4,6 +4,7 @@ const {
   addRecipe,
   getRecipes,
   deleteRecipe,
+  getAllRecipes,
 } = require('../controllers/recipes');
 
 // @route  POST api/recipes + /addRecipe
@@ -13,6 +14,10 @@ router.post('/addRecipe', addRecipe);
 // @route  GET api/recipes
 // @desc   get all recipes
 router.get('/:cheifID', getRecipes);
+
+// @route  GET api/recipes
+// @desc   get all recipes
+router.get('/', getAllRecipes);
 
 // @route  delete api/recipes + /deleteRecipe/:_id
 // @desc   delete specific recipe

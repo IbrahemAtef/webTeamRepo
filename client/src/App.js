@@ -5,7 +5,7 @@ import Login from './components/Login/Login.js';
 import Dashboard from './components/Dashboard/dash.js';
 import SignUp from './components/SignUp/SignUp';
 import Landing from './components/landing/landing';
-
+import Home from './components/Home/Home'
 
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/sign-up" component={SignUp} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/home" component={Home} />
         </Switch>
       </div>
     </Router>

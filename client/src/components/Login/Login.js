@@ -27,7 +27,7 @@ class Login extends React.Component {
       if (type === 'cheif') {
         this.props.history.push('/dashboard');
       } else {
-        this.props.history.push('/');
+        this.props.history.push('/home');
       }
     } catch (error) {
       swal("OoOps!", " Invalid email or password.", "error");
