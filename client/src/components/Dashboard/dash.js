@@ -14,15 +14,21 @@ import {
 import $ from 'jquery';
 import axios from 'axios';
 import swal from 'sweetalert';
+import bcrypt from 'bcryptjs'
 
 class Dashboard extends React.Component {
   state = {
     title: '',
     description: '',
     image: '',
+    picture : personal,
     type: '',
     cheif: null,
     recipes: null,
+    newUserName : '',
+    oldPassword : '',
+    newPassword : '',
+    newPasswordConfirm : '',
   };
 
   async componentDidMount() {
@@ -66,6 +72,11 @@ class Dashboard extends React.Component {
       var response = await axios(options);
       this.setState({
         cheif: response.data,
+      }, ()=> {
+        this.setState({
+          newUserName: this.state.cheif.userName,
+          picture : this.state.cheif.picture
+        })
       });
     } catch (error) {
       window.location.reload();
@@ -176,6 +187,30 @@ class Dashboard extends React.Component {
     }
   }
 
+  async editUser(key, valueOne, valueTwo, valueThree) {
+    try {
+      var o = {};
+      if (key === 'password') {
+        const isMatchOldPassword = await bcrypt.compare(valueTwo,this.state.cheif.password);
+        if (isMatchOldPassword) {
+          if (valueTwo === valueOne) {
+            throw new Error("The new password is the same of the old one");
+          } else if (valueOne !== valueThree) {
+            throw new Error("Please make sure the new password and the the confirm of it are the same");
+          }
+        } else {
+          throw new Error("The old password doesn't match");
+        }
+      }
+      o[key] = valueOne;
+      var msg = await (await axios.patch(`/api/users/editUser/${this.state.cheif._id}`, o)).data;
+      await swal('Good job!', msg, 'success');
+      await this.getUser();
+    } catch (error) {
+      await swal('OoOps!', 'Failed to update User ' + error, 'error');
+    } 
+  }
+
   render() {
     return (
       <div>
@@ -209,8 +244,8 @@ class Dashboard extends React.Component {
         {/* start sidebar */}
         <div className='sidebar'>
           <div className='profile_info'>
-            <img src={personal} className='profile_image' alt='' />
-            <h4>Ahmed</h4>
+            <img src={this.state.picture} className='profile_image' alt='cheid_img' />
+            <h4>{this.state.cheif && this.state.cheif.userName}</h4>
           </div>
           <span data-section='.add-recipe' className='active'>
             <FontAwesomeIcon icon={faPlusCircle} />
@@ -385,19 +420,23 @@ class Dashboard extends React.Component {
                 <div className="left">
                   <div className="edit_signle">
                     <p>
-                      <h3>Email:</h3>
-                      <input id="disabled" type="text" disabled="true" value="Ibrahim@gmail.com"/>
+                      <span>Email:</span>
+                      <input id="disabled" type="text" disabled={true} value={this.state.cheif && this.state.cheif.email}/>
                     </p>
                   </div>
                   <div className="edit_signle">
                     <p>
-                      <h3>UserName:</h3>
-                      <input type="text" value="Ibrahim"/>
+                      <span>UserName:</span>
+                      <input type="text" name="newUserName" onChange={this.handleChange.bind(this)} value={this.state.cheif && this.state.newUserName} />
                     </p>
-                    <button className="edit_btn">Edit UserName</button>
+                    <button className="edit_btn" onClick={
+                        () => {
+                          this.editUser("userName", this.state.newUserName);
+                        }
+                      }>Edit UserName</button>
                   </div>
                   <div className='add_img'>
-                    <h3>Personal image:</h3>
+                    <span>Personal image:</span>
                     <div role='status' className='spinner-border'>
                       <span className='sr-only'>Loading...</span>
                     </div>
@@ -412,18 +451,26 @@ class Dashboard extends React.Component {
                         <span className='add-photos'>Add Photo</span>
                       </label>
                     </p>
-                    <button className="edit_btn">Edit personal image</button>
+                    <button className="edit_btn"
+                    onClick={()=> {
+                      this.editUser("picture", this.state.image);
+                    }}
+                    >Edit personal image</button>
                   </div>
                 </div>
                 <div className="right">
                   <div className="edit_signle">
                     <p>
-                      <h3>Change your password:</h3>
-                      <input type="text" />
-                      <input type="text" />
-                      <input type="text" />
+                      <span>Change your password:</span>
+                      <input type="text" name="oldPassword" onChange={this.handleChange.bind(this)} placeholder="Please Enter the old password"/>
+                      <input type="text" name="newPassword" onChange={this.handleChange.bind(this)} placeholder="Please Enter the new password"/>
+                      <input type="text" name="newPasswordConfirm" onChange={this.handleChange.bind(this)} placeholder="Please Renter the new password"/>
                     </p>
-                    <button className="edit_btn" style= {{ marginTop: 8 + 'px', width: 90 + '%', fontSize: 16 + 'px'}}>Edit password</button>
+                    <button className="edit_btn" style= {{ marginTop: 8 + 'px', width: 90 + '%', fontSize: 16 + 'px'}}
+                      onClick={()=> {
+                        this.editUser("password", this.state.newPassword, this.state.oldPassword, this.state.newPasswordConfirm);
+                      }}
+                    >Edit password</button>
                   </div>
                 </div>
             </div>

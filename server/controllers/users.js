@@ -26,7 +26,7 @@ module.exports.createUser = async (req, res) => {
       password,
       type,
     });
-    
+
     // Encrypt password
     user.password = await bcrypt.hash(password, 10);
 
@@ -53,7 +53,7 @@ module.exports.createUser = async (req, res) => {
     );
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({error : error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -66,4 +66,20 @@ module.exports.getCheifs = async (req, res) => {
   }
 };
 
-module.exports.editUser = async (req, res) => {};
+module.exports.editUser = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const k = Object.keys(req.body)[0];
+    let v = Object.values(req.body)[0];
+    var o = {};
+    if (k === 'password') {
+      v = await bcrypt.hash(v, 10);
+    }
+    o[k] = v;
+    console.log(o);
+    await User.where({ _id }).update({ $set: o }).exec();
+    res.send('success in updating user');
+  } catch (error) {
+    res.send('Error in updating' + error.errmsg);
+  }
+};

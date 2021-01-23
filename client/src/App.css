@@ -443,9 +443,9 @@ label #sidebar_btn:hover {
 .content .add-recipe .recipe .left .add_img h3,
 .content .add-recipe .recipe .right .add_desc h3,
 .content .add-recipe .recipe .title h3,
-.content .profile .recipe .left .edit_signle p h3, 
-.content .profile .recipe .left .add_img h3,
-.content .profile .recipe .right .edit_signle p h3 {
+.content .profile .recipe .left .edit_signle p > span, 
+.content .profile .recipe .left .add_img > span,
+.content .profile .recipe .right .edit_signle p > span {
   display: block;
   font-size: 1.2em;
   margin-top: 1em;
