@@ -5,7 +5,6 @@ import {
   faSignOutAlt,
   faBars,
   faPlusCircle,
-  faEdit,
   faEye,
   faUserCircle,
   faPlus,
@@ -13,28 +12,114 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
+import axios from 'axios';
+import swal from 'sweetalert';
+import bcrypt from 'bcryptjs'
 
 class Dashboard extends React.Component {
-  state = {};
+  state = {
+    title: '',
+    description: '',
+    image: '',
+    picture : personal,
+    type: '',
+    cheif: null,
+    recipes: null,
+    newUserName : '',
+    oldPassword : '',
+    newPassword : '',
+    newPasswordConfirm : '',
+  };
 
-  componentDidMount() {
-    // jquery
-    $(function () {
-      $('.nav_btn').on('click', function () {
-        $('.mobile_nav_items').toggleClass('active');
+  async componentDidMount() {
+    if (!localStorage.getItem('token')) {
+      this.props.history.push('/');
+    } else {
+      ///////////////// jquery ///////////////
+      $(function () {
+        $('.nav_btn').on('click', function () {
+          $('.mobile_nav_items').toggleClass('active');
+        });
+        $('.sidebar > span').on('click', function (e) {
+          let classN = $(e.currentTarget).attr('data-section');
+          $(e.currentTarget)
+            .addClass('active')
+            .siblings()
+            .removeClass('active');
+          $(classN).show().siblings().hide();
+        });
+        $('.btn').on('click', function () {
+          $($(this).siblings()[1]).append(`<p>
+          <label>${$($(this).siblings()[1]).children().length + 1}.</label>
+          <input type="text" >
+          </p>`);
+        });
+        $('.spinner-border').hide();
       });
-      $('.sidebar > span').on('click', function (e) {
-        let classN = $(e.currentTarget).attr('data-section');
-        $(e.currentTarget).addClass('active').siblings().removeClass('active');
-        $(classN).show().siblings().hide();
+    }
+    //////////////////////////////////////////////////////////////////////
+    await this.getUser();
+    await this.getRecipes();
+  }
+
+  async getUser() {
+    const options = {
+      method: 'GET',
+      headers: { 'x-auth-token': localStorage.getItem('token') },
+      url: '/api/auth/tokenUser',
+    };
+    try {
+      var response = await axios(options);
+      this.setState({
+        cheif: response.data,
+      }, ()=> {
+        this.setState({
+          newUserName: this.state.cheif.userName,
+          picture : this.state.cheif.picture,
+          oldPassword : '',
+          newPassword : '',
+          newPasswordConfirm : '',
+        })
       });
-      $('.btn').on('click', function () {
-        $($(this).siblings()[1]).append(`<p>
-        <label>${$($(this).siblings()[1]).children().length + 1}.</label>
-        <input type="text" >
-        </p>`);
+    } catch (error) {
+      window.location.reload();
+    }
+  }
+
+  async getRecipes() {
+    const cheifID = this.state && this.state.cheif._id;
+    try {
+      let recipes = await (await axios.get(`/api/recipes/${cheifID}`)).data;
+      this.setState({ recipes });
+    } catch (error) {
+      window.location.reload();
+    }
+  }
+
+  async deleteRecipe(recipeID) {
+    try {
+      let willDelete = await swal({
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover this recipe!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
       });
-    });
+      if (willDelete) {
+        let res = await (
+          await axios.delete(`api/recipes/deleteRecipe/${recipeID}`)
+        ).data;
+        await swal(`Poof! ${res.msg}!`, {
+          icon: 'success',
+        });
+        window.location.reload();
+      } else {
+        await swal('Your Recipe is safe!');
+      }
+    } catch (error) {
+      console.log(error);
+      await swal('OoOps!', 'Failed to add recipe.', 'error');
+    }
   }
 
   handleChange(e) {
@@ -43,7 +128,91 @@ class Dashboard extends React.Component {
     });
   }
 
-  async handleSubmit(e) {}
+  async handleSubmit() {
+    var ingredients = [];
+    $('.ingredients > .steps > p > input').each((index, input) => {
+      let text = $(input).val();
+      ingredients.push(text);
+    });
+    var steps = [];
+    $('.preparation_steps > .steps > p > input').each((index, input) => {
+      let text = $(input).val();
+      steps.push(text);
+    });
+    const { title, description, image, type } = this.state;
+    const cheifID = this.state.cheif && this.state.cheif._id;
+    try {
+      if (ingredients.join('').length === 0 || steps.join('').length === 0) {
+        await swal(
+          'OoOps!',
+          'Make sure to add the ingredients and preparation steps.',
+          'error',
+        );
+        return;
+      }
+      var msg = await (
+        await axios.post('/api/recipes/addRecipe', {
+          title,
+          description,
+          ingredients,
+          steps,
+          image,
+          type,
+          cheifID,
+        })
+      ).data;
+      await swal('Good job!', msg, 'success');
+      await window.location.reload();
+    } catch (error) {
+      await swal('OoOps!', 'Failed to add recipe.', 'error');
+    }
+  }
+
+  async uploadImage(e) {
+    $('.spinner-border').show();
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append('file', file);
+    formData.append('upload_preset', 'snkyxvjw');
+    try {
+      var image = await (
+        await axios.post(
+          'https://api.cloudinary.com/v1_1/dbeuaqex2/image/upload',
+          formData,
+        )
+      ).data.url;
+      await swal('Good job!', 'The image has uploaded.', 'success');
+      this.setState({ image }, () => {
+        $('.spinner-border').hide();
+      });
+    } catch (error) {
+      swal('OoOps!', "The image didn't upload, try again.", 'error');
+    }
+  }
+
+  async editUser(key, valueOne, valueTwo, valueThree) {
+    try {
+      var o = {};
+      if (key === 'password') {
+        const isMatchOldPassword = await bcrypt.compare(valueTwo,this.state.cheif.password);
+        if (isMatchOldPassword) {
+          if (valueTwo === valueOne) {
+            throw new Error("The new password is the same of the old one");
+          } else if (valueOne !== valueThree) {
+            throw new Error("Please make sure the new password and the the confirm of it are the same");
+          }
+        } else {
+          throw new Error("The old password doesn't match");
+        }
+      }
+      o[key] = valueOne;
+      var msg = await (await axios.patch(`/api/users/editUser/${this.state.cheif._id}`, o)).data;
+      await swal('Good job!', msg, 'success');
+      await this.getUser();
+    } catch (error) {
+      await swal('OoOps!', 'Failed to update User ' + error, 'error');
+    } 
+  }
 
   render() {
     return (
@@ -78,8 +247,8 @@ class Dashboard extends React.Component {
         {/* start sidebar */}
         <div className='sidebar'>
           <div className='profile_info'>
-            <img src={personal} className='profile_image' alt='' />
-            <h4>Ahmed</h4>
+            <img src={this.state.picture} className='profile_image' alt='cheid_img' />
+            <h4>{this.state.cheif && this.state.cheif.userName}</h4>
           </div>
           <span data-section='.add-recipe' className='active'>
             <FontAwesomeIcon icon={faPlusCircle} />
@@ -104,6 +273,16 @@ class Dashboard extends React.Component {
           <div className='add-recipe'>
             <h2>Add a new recipe</h2>
             <div className='recipe'>
+              <div className='title'>
+                <h3>Title of the recipe:</h3>
+                <input
+                  name='title'
+                  type='text'
+                  value={this.state.title}
+                  onChange={this.handleChange.bind(this)}
+                  style={{ width: 78 + '%', marginLeft: 25 + 'px' }}
+                />
+              </div>
               <div className='left'>
                 <div className='ingredients'>
                   <h3>Add Recipe Ingredients</h3>
@@ -127,9 +306,16 @@ class Dashboard extends React.Component {
                 </div>
                 <div className='add_img'>
                   <h3>Choose Recipe image:</h3>
+                  <div role='status' className='spinner-border'>
+                    <span className='sr-only'>Loading...</span>
+                  </div>
                   <p>
                     <label>
-                      <input type='file' name='file' />
+                      <input
+                        type='file'
+                        name='file'
+                        onChange={this.uploadImage.bind(this)}
+                      />
                       <FontAwesomeIcon icon={faImage} />{' '}
                       <span className='add-photos'>Add Photo</span>
                     </label>
@@ -139,7 +325,12 @@ class Dashboard extends React.Component {
                   <div className='choice-head'>
                     <label>Video Type</label>
                   </div>
-                  <select className='custom-select' name='type'>
+                  <select
+                    className='custom-select'
+                    name='type'
+                    value={this.state.type}
+                    onChange={this.handleChange.bind(this)}
+                  >
                     <option value>Choose...</option>
                     <option value='grills'>Grills</option>
                     <option value='pastries'>Pastries</option>
@@ -172,11 +363,17 @@ class Dashboard extends React.Component {
                 </div>
                 <div className='add_desc'>
                   <h3>Description: </h3>
-                  <textarea></textarea>
+                  <textarea
+                    name='description'
+                    value={this.state.description}
+                    onChange={this.handleChange.bind(this)}
+                  ></textarea>
                 </div>
               </div>
               <div className='clear_fix'></div>
-              <button>Save new recipe</button>
+              <button onClick={this.handleSubmit.bind(this)}>
+                Save new recipe
+              </button>
             </div>
           </div>
 
@@ -184,184 +381,103 @@ class Dashboard extends React.Component {
           <div className='show-recipes'>
             <h2>Show Recipes</h2>
             <div className='recipe'>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title="Edit recipe"
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title="Delete recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title="Show recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title="Edit recipe"
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title="Delete recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title="Show recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title="Edit recipe"
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title="Delete recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title="Show recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title="Edit recipe"
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title="Delete recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title="Show recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
-              <div className='post-block'>
-                <div className='post-img-div'>
-                  <img src='https://townhub.kwst.net/images/all/1.jpg' alt="img" />
-                </div>
-                <div className='post-descri-div'>
-                  <h4>New Version for huawai</h4>
-                  <p>40 Journal Square Plaza, NJ, USA</p>
-                </div>
-                <div className='post-edit-delete'>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className='edit-icon'
-                    title="Edit recipe"
-                    // onClick={() => {
-                    //   this.handleEdit(post.id);
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className='delete-icon'
-                    title="Delete recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className='show-icon'
-                    title="Show recipe"
-                    // onClick={() => {
-                    //   $('.drop-delete').show();
-                    // }}
-                  />
-                </div>
-              </div>
+              {this.state.recipes && this.state.recipes.length !== 0 ? (
+                this.state.recipes.map((recipe, index) => {
+                  return (
+                    <div className='post-block' key={index}>
+                      <div className='post-img-div'>
+                        <img src={recipe.image} alt='img' />
+                      </div>
+                      <div className='post-descri-div'>
+                        <h4>{recipe.title}</h4>
+                        <p>{recipe.description}</p>
+                      </div>
+                      <div className='post-show-delete'>
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className='show-icon'
+                          title='Show recipe'
+                          // onClick={() => {
+                          // }}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className='delete-icon'
+                          title='Delete recipe'
+                          onClick={() => {
+                            this.deleteRecipe(recipe._id);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <h4>You didn't add any recipes yet</h4>
+              )}
             </div>
           </div>
-          <div className='profile'>profile</div>
+          <div className='profile'>
+            <h2>My Profile</h2>
+            <div className="recipe">
+                <div className="left">
+                  <div className="edit_signle">
+                    <p>
+                      <span>Email:</span>
+                      <input id="disabled" type="text" disabled={true} value={this.state.cheif && this.state.cheif.email}/>
+                    </p>
+                  </div>
+                  <div className="edit_signle">
+                    <p>
+                      <span>UserName:</span>
+                      <input type="text" name="newUserName" onChange={this.handleChange.bind(this)} value={this.state.cheif && this.state.newUserName} />
+                    </p>
+                    <button className="edit_btn" onClick={
+                        () => {
+                          this.editUser("userName", this.state.newUserName);
+                        }
+                      }>Edit UserName</button>
+                  </div>
+                  <div className='add_img'>
+                    <span>Personal image:</span>
+                    <div role='status' className='spinner-border'>
+                      <span className='sr-only'>Loading...</span>
+                    </div>
+                    <p>
+                      <label>
+                        <input
+                          type='file'
+                          name='file'
+                          onChange={this.uploadImage.bind(this)}
+                        />
+                        <FontAwesomeIcon icon={faImage} />{' '}
+                        <span className='add-photos'>Add Photo</span>
+                      </label>
+                    </p>
+                    <button className="edit_btn"
+                    onClick={()=> {
+                      this.editUser("picture", this.state.image);
+                    }}
+                    >Edit personal image</button>
+                  </div>
+                </div>
+                <div className="right">
+                  <div className="edit_signle">
+                    <p>
+                      <span>Change your password:</span>
+                      <input type="text" name="oldPassword" onChange={this.handleChange.bind(this)} placeholder="Please Enter the old password"/>
+                      <input type="text" name="newPassword" onChange={this.handleChange.bind(this)} placeholder="Please Enter the new password"/>
+                      <input type="text" name="newPasswordConfirm" onChange={this.handleChange.bind(this)} placeholder="Please Renter the new password"/>
+                    </p>
+                    <button className="edit_btn" style= {{ marginTop: 8 + 'px', width: 90 + '%', fontSize: 16 + 'px'}}
+                      onClick={()=> {
+                        this.editUser("password", this.state.newPassword, this.state.oldPassword, this.state.newPasswordConfirm);
+                      }}
+                    >Edit password</button>
+                  </div>
+                </div>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -6,7 +6,7 @@ const { validationResult } = require('express-validator');
 
 module.exports.tokenUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id);
     res.json(user);
   } catch (error) {
     res.status(500).send('Server Error');

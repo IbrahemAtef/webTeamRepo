@@ -26,16 +26,7 @@ router.get('/cheifs', getCheifs);
 // @route  PATCH api/users + /editUser
 // @desc   Edit user
 router.patch(
-  '/editUser',
-  [
-    check('userName', 'Name is required').not().isEmpty(),
-    check('email', 'Please include a valid email').isEmail(),
-    check(
-      'password',
-      'Please enter a password with 6 or more characters',
-    ).isLength({ min: 6 }),
-    check('type', 'Type is required').not().isEmpty(),
-  ],
+  '/editUser/:_id',
   editUser,
 );
 
